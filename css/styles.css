@@ -1,0 +1,103 @@
+/* Note: I am somewhat using the example project's css to speed up the implementation process.
+I'll change it once I'm done with the core functionality.*/
+
+body {
+  height: 100vh;
+  width: 100vw;
+  background-color: #f5f7fa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.container {
+  padding: 30px;
+  background-color: #ffffff;
+  width: 900px;
+  height: 800px;
+}
+
+.stat-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-box {
+  background-color: #f8f9fa;
+  border: 1px solid lightgray;
+  border-radius: 6px;
+  padding: 16px 24px;
+  min-width: 120px;
+}
+
+.stat-title {
+  margin-bottom: 6px;
+}
+
+.seesaw-container {
+  background-color: #ecf0f1;
+  width: 100%;
+  height: 500px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.plank-click-box {
+  position: absolute;
+  height: 500%;
+  width: 120%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -80%);
+}
+
+.plank {
+  background-color: #5d4e37;
+  width: 400px;
+  height: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center center;
+  transform: translate(-50%, -50%);
+}
+
+.pivot {
+  background-color: darkgoldenrod;
+  height: 100px;
+  width: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%);
+}
+.pivot-base {
+  background-color: darkgoldenrod;
+  width: 100px;
+  height: 15px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(99px);
+}
+
+.control-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 24px;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.log-container {
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  height: 150px;
+}
