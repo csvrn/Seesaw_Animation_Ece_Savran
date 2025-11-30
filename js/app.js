@@ -24,7 +24,7 @@ function handleClick(e, center) {
   Seesaw.rotatePlank(angle);
 
   Logs.addLog(currentWeight, direction, distance);
-  Seesaw.createWeight(currentWeight, e.clientX);
+  Seesaw.createWeight(currentWeight, e.clientX, distance, direction, false);
 
   currentWeight = State.generateCurrentWeight();
 }
@@ -44,6 +44,9 @@ function handleReset() {
 }
 
 function initApp() {
+  Seesaw.initLocalStorage();
+  State.initStats();
+
   const pivotCenter = Seesaw.calculatePivotCenter();
 
   State.generateCurrentWeight();

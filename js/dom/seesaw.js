@@ -48,6 +48,7 @@ const Seesaw = (() => {
       weightIndicatorContainer.style.width = plankWidth;
       this.rotatePlank(0);
       plankClickBox.innerHTML = "";
+      localStorage.clear();
     },
     set currentBorder(left) {
       currentBorder = left;
@@ -63,7 +64,18 @@ const Seesaw = (() => {
       plank.style.transition = "transform 2s 0.6s";
     },
 
-    createWeight(weight, x) {
+    initLocalStorage() {
+      for (const [w, x, d] of State.weightList["left"]) {
+        this.createWeight(w, x, d, "left", true);
+        Logs.addLog(w, "left", d);
+      }
+      for (const [w, x, d] of State.weightList["right"]) {
+        this.createWeight(w, x, d, "right", true);
+        Logs.addLog(w, "right", d);
+      }
+      this.rotatePlank(State.angle);
+    },
+    createWeight(weight, x, distance, direction, init) {
       const randIndex = Math.floor(Math.random() * 5);
       const weightElement = document.createElement("div");
       weightElement.classList.add("weight");
@@ -81,8 +93,10 @@ const Seesaw = (() => {
       });
 
       weightIndicatorContainer.appendChild(weightElement);
+      if (!init) {
+        State.appendWeightList(weight, x, distance, direction);
+      }
     },
-
     showWeightIndicator() {
       weightIndicator.style.display = "flex";
     },

@@ -3,13 +3,22 @@ import Physics from "./physics.js";
 
 const State = (() => {
   let currentWeight = 0;
-  let leftWeight = localStorage.getItem("leftWeight") || 0;
-  let rightWeight = localStorage.getItem("rightWeight") || 0;
-  let rightTorque = localStorage.getItem("rightTorque") || 0;
-  let leftTorque = localStorage.getItem("leftTorque") || 0;
-  let angle = 0;
+  let leftWeight = Number(localStorage.getItem("leftWeight")) || 0;
+  let rightWeight = Number(localStorage.getItem("rightWeight")) || 0;
+  let rightTorque = Number(localStorage.getItem("rightTorque")) || 0;
+  let leftTorque = Number(localStorage.getItem("leftTorque")) || 0;
+  let angle = Number(localStorage.getItem("angle")) || 0;
 
+  const weightList = JSON.parse(localStorage.getItem("weight-list")) || {
+    left: [],
+    right: [],
+  };
   return {
+    appendWeightList(weight, x, distance, direction) {
+      weightList[direction].push([weight, x, distance]);
+      const strList = JSON.stringify(weightList);
+      localStorage.setItem("weight-list", strList);
+    },
     get angle() {
       return angle;
     },
@@ -24,9 +33,11 @@ const State = (() => {
     incrementWeight(w, direction) {
       if (direction == "left") {
         leftWeight += w;
+        localStorage.setItem("leftWeight", leftWeight);
         Stats.updateLeftWeight(leftWeight);
       } else {
         rightWeight += w;
+        localStorage.setItem("rightWeight", rightWeight);
         Stats.updateRightWeight(rightWeight);
       }
     },
@@ -34,14 +45,17 @@ const State = (() => {
     incrementTorque(torque, direction) {
       if (direction === "left") {
         leftTorque += torque;
+        localStorage.setItem("leftTorque", leftTorque);
       } else {
         rightTorque += torque;
+        localStorage.setItem("rightTorque", rightTorque);
       }
     },
 
     updateAngle() {
       angle = Physics.calculateAngle(leftTorque, rightTorque).toFixed(2);
       Stats.updateAngle(angle);
+      localStorage.setItem("angle", angle);
       return angle;
     },
     resetState() {
@@ -52,12 +66,16 @@ const State = (() => {
       leftTorque = 0;
       angle = 0;
 
-      localStorage.removeItem("leftWeight");
-      localStorage.removeItem("rightWeight");
-      localStorage.removeItem("rightTorque");
-      localStorage.removeItem("leftTorque");
-
       Stats.resetStats();
+    },
+    get weightList() {
+      return weightList;
+    },
+    initStats() {
+      Stats.updateLeftWeight(leftWeight);
+      Stats.updateNextWeight(currentWeight);
+      Stats.updateRightWeight(rightWeight);
+      Stats.updateAngle(angle);
     },
   };
 })();
