@@ -20,6 +20,12 @@ const Stats = (() => {
     updateAngle(a) {
       angleStat.innerHTML = `${a}&deg;`;
     },
+    resetStats() {
+      this.updateLeftWeight(0);
+      this.updateNextWeight(0);
+      this.updateRightWeight(0);
+      this.updateAngle(0);
+    },
   };
 })();
 

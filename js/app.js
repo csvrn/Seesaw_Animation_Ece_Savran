@@ -10,7 +10,7 @@ function handleMouseLeave() {
   Seesaw.hideWeightIndicator();
 }
 function handleClick(e, center) {
-  const plank = document.querySelector(".plank");
+  Seesaw.playSoundEffect();
   let direction = "left";
   if (center < e.clientX) {
     direction = "right";
@@ -39,9 +39,12 @@ function updateWeightandTorque(weight, distance, direction) {
   State.incrementTorque(torque, direction);
 }
 
+function handleReset() {
+  Seesaw.resetSeesaw();
+}
+
 function initApp() {
   const pivotCenter = Seesaw.calculatePivotCenter();
-  // const plankClickBox = document.querySelector(".plank-click-box");
 
   State.generateCurrentWeight();
 
@@ -60,6 +63,11 @@ function initApp() {
   Seesaw.weightIndicatorContainer.addEventListener("click", (e) =>
     handleClick(e, pivotCenter)
   );
+
+  Seesaw.resetBtn.addEventListener("click", () => {
+    handleReset();
+    State.generateCurrentWeight();
+  });
 }
 
 addEventListener("DOMContentLoaded", (event) => {

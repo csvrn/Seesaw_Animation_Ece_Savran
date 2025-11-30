@@ -1,4 +1,5 @@
 import State from "../state.js";
+import Logs from "./logs.js";
 const Seesaw = (() => {
   const plank = document.querySelector(".plank");
   const pivot = document.querySelector(".pivot");
@@ -7,9 +8,12 @@ const Seesaw = (() => {
     ".weight-indicator-container"
   );
   const weightIndicator = document.querySelector(".weight-indicator");
+  const resetBtn = document.getElementById("reset-btn");
+  const soundEffect = document.getElementById("sound");
+
   let currentBorder = plank.getBoundingClientRect().left;
-  const plankWidth = plank.getBoundingClientRect().width;
-  const plankHeight = plank.getBoundingClientRect().height;
+  let plankWidth = plank.getBoundingClientRect().width;
+  let plankHeight = plank.getBoundingClientRect().height;
 
   plank.addEventListener("transitionend", () => {
     const newLeft = plank.getBoundingClientRect().left;
@@ -33,6 +37,18 @@ const Seesaw = (() => {
   };
 
   return {
+    get resetBtn() {
+      return resetBtn;
+    },
+    resetSeesaw() {
+      State.resetState();
+      Logs.resetLogs();
+
+      currentBorder = 0;
+      weightIndicatorContainer.style.width = plankWidth;
+      this.rotatePlank(0);
+      plankClickBox.innerHTML = "";
+    },
     set currentBorder(left) {
       currentBorder = left;
     },
@@ -86,6 +102,10 @@ const Seesaw = (() => {
     },
     get weightIndicatorContainer() {
       return weightIndicatorContainer;
+    },
+    playSoundEffect() {
+      soundEffect.currentTime = 0.8;
+      soundEffect.play();
     },
   };
 })();

@@ -25,21 +25,24 @@
         </div>
       </div>
       <div class="seesaw-container">
-        <div class="pivot"></div>
-        <div class="plank">
-          <div class="plank-click-box"></div>
+        <div class="seesaw-inner-container">
+          <div class="pivot"></div>
+          <div class="plank">
+            <div class="plank-click-box"></div>
+          </div>
+          <div class="weight-indicator-container">
+            <div class="weight-indicator">10kg</div>
+          </div>
         </div>
-        <div class="weight-indicator-container">
-          <div class="weight-indicator">10kg</div>
-        </div>
-        <!-- <div class="ground"></div> -->
+        <div class="ground"></div>
         <div class="pivot-base"></div>
       </div>
       <div class="control-container">
-        <button class="control-button">Reset Seesaw</button>
+        <button class="control-button" id="reset-btn">Reset Seesaw</button>
       </div>
       <div class="log-container"></div>
     </div>
+    <audio id="sound" src="./assets/hard-object-drop-98768.mp3"></audio>
   </body>
   <script type="module" src="js/app.js"></script>
 </html>

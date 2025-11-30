@@ -44,6 +44,21 @@ const State = (() => {
       Stats.updateAngle(angle);
       return angle;
     },
+    resetState() {
+      currentWeight = 0;
+      leftWeight = 0;
+      rightWeight = 0;
+      rightTorque = 0;
+      leftTorque = 0;
+      angle = 0;
+
+      localStorage.removeItem("leftWeight");
+      localStorage.removeItem("rightWeight");
+      localStorage.removeItem("rightTorque");
+      localStorage.removeItem("leftTorque");
+
+      Stats.resetStats();
+    },
   };
 })();
 
