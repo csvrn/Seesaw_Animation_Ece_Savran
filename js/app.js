@@ -3,7 +3,14 @@ import Logs from "./dom/logs.js";
 import State from "./state.js";
 import Physics from "./physics.js";
 
+function handleMouseEnter() {
+  Seesaw.showWeightIndicator();
+}
+function handleMouseLeave() {
+  Seesaw.hideWeightIndicator();
+}
 function handleClick(e, center) {
+  const plank = document.querySelector(".plank");
   let direction = "left";
   if (center < e.clientX) {
     direction = "right";
@@ -11,15 +18,19 @@ function handleClick(e, center) {
     direction = "left";
   }
   const distance = Math.abs(e.clientX - center);
-  let currentWeight = State.generateCurrentWeight();
+  let currentWeight = State.currentWeight;
   updateWeightandTorque(currentWeight, distance, direction);
   const angle = State.updateAngle();
-  console.log(currentWeight);
   Seesaw.rotatePlank(angle);
 
   Logs.addLog(currentWeight, direction, distance);
+  Seesaw.createWeight(currentWeight, e.clientX);
 
   currentWeight = State.generateCurrentWeight();
+}
+
+function handleHover(e, center) {
+  Seesaw.moveWeightIndicator(e.clientX);
 }
 
 function updateWeightandTorque(weight, distance, direction) {
@@ -30,8 +41,25 @@ function updateWeightandTorque(weight, distance, direction) {
 
 function initApp() {
   const pivotCenter = Seesaw.calculatePivotCenter();
-  const plankClickBox = document.querySelector(".plank-click-box");
-  plankClickBox.addEventListener("click", (e) => handleClick(e, pivotCenter));
+  // const plankClickBox = document.querySelector(".plank-click-box");
+
+  State.generateCurrentWeight();
+
+  Seesaw.weightIndicatorContainer.addEventListener("mouseenter", () => {
+    handleMouseEnter();
+  });
+
+  Seesaw.weightIndicatorContainer.addEventListener("mouseleave", () => {
+    handleMouseLeave();
+  });
+
+  Seesaw.weightIndicatorContainer.addEventListener("mousemove", (e) =>
+    handleHover(e, pivotCenter)
+  );
+
+  Seesaw.weightIndicatorContainer.addEventListener("click", (e) =>
+    handleClick(e, pivotCenter)
+  );
 }
 
 addEventListener("DOMContentLoaded", (event) => {

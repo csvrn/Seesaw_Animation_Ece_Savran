@@ -1,8 +1,41 @@
+import State from "../state.js";
 const Seesaw = (() => {
   const plank = document.querySelector(".plank");
   const pivot = document.querySelector(".pivot");
+  const plankClickBox = document.querySelector(".plank-click-box");
+  const weightIndicatorContainer = document.querySelector(
+    ".weight-indicator-container"
+  );
+  const weightIndicator = document.querySelector(".weight-indicator");
+  let currentBorder = plank.getBoundingClientRect().left;
+  const plankWidth = plank.getBoundingClientRect().width;
+  const plankHeight = plank.getBoundingClientRect().height;
+
+  plank.addEventListener("transitionend", () => {
+    const newLeft = plank.getBoundingClientRect().left;
+    const shift = newLeft - currentBorder;
+    const b = plankHeight * Math.sin(State.angle);
+    let newWidth = 0;
+    if (State.angle > 0) {
+      newWidth = plankWidth - shift + b * 1.5;
+    } else {
+      newWidth = plankWidth - shift - b;
+    }
+    weightIndicatorContainer.style.width = `${newWidth}px`;
+  });
+
+  const colors = {
+    red: "#FF6B6B",
+    turqoise: "#4ECDC4",
+    dark_blue: "dark-blue",
+    lime_yellow: "#C7F464",
+    orange: "#FFA500",
+  };
 
   return {
+    set currentBorder(left) {
+      currentBorder = left;
+    },
     calculatePivotCenter() {
       const left = pivot.getBoundingClientRect().left;
       const center = left + pivot.offsetWidth / 2;
@@ -11,7 +44,48 @@ const Seesaw = (() => {
 
     rotatePlank(angle) {
       plank.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
-      plank.style.transition = "transform 2s";
+      plank.style.transition = "transform 2s 0.6s";
+    },
+
+    createWeight(weight, x) {
+      const randIndex = Math.floor(Math.random() * 5);
+      const weightElement = document.createElement("div");
+      weightElement.classList.add("weight");
+      weightElement.style.height = `${40 + weight * 3}px`;
+      weightElement.style.width = `${40 + weight * 3}px`;
+      weightElement.innerText = `${weight}kg`;
+      weightElement.style.top = `${40 - weight * 3}px`;
+      weightElement.style.left = `${x - plank.getBoundingClientRect().left}px`;
+      weightElement.style.backgroundColor = Object.values(colors)[randIndex];
+
+      weightElement.addEventListener("animationend", () => {
+        plankClickBox.appendChild(weightElement);
+        weightElement.style.transform = "";
+        weightElement.style.animation = "none";
+      });
+
+      weightIndicatorContainer.appendChild(weightElement);
+    },
+
+    showWeightIndicator() {
+      weightIndicator.style.display = "flex";
+    },
+
+    hideWeightIndicator() {
+      weightIndicator.style.display = "none";
+    },
+
+    moveWeightIndicator(x) {
+      const weight = State.currentWeight;
+      weightIndicator.style.height = `${40 + weight * 3}px`;
+      weightIndicator.style.width = `${40 + weight * 3}px`;
+      weightIndicator.innerText = `${weight}kg`;
+      weightIndicator.style.left = `${
+        x - plank.getBoundingClientRect().left - (40 + weight * 3) / 2
+      }px`;
+    },
+    get weightIndicatorContainer() {
+      return weightIndicatorContainer;
     },
   };
 })();

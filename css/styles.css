@@ -10,6 +10,7 @@ body {
   align-items: center;
   justify-content: center;
   margin: 0;
+  position: relative;
 }
 
 .container {
@@ -49,11 +50,11 @@ body {
 
 .plank-click-box {
   position: absolute;
-  height: 500%;
-  width: 120%;
+  height: 900px;
+  width: 100%;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -80%);
+  transform: translate(-50%, -90px);
 }
 
 .plank {
@@ -84,6 +85,56 @@ body {
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(99px);
+}
+
+.weight {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  background-color: rgb(52, 152, 219);
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation-name: fallingAnimation;
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+}
+
+@keyframes fallingAnimation {
+  from {
+    transform: translateY(-150%);
+  }
+  to {
+    /* transform: translate(-50%, -50%); */
+  }
+}
+
+.weight-indicator {
+  display: none;
+  opacity: 0.6;
+  position: absolute;
+  top: -50px;
+  left: 0;
+  background-color: rgb(52, 152, 219);
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.weight-indicator-container {
+  width: 400px;
+  height: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center center;
+  transform: translate(-50%, -50%);
 }
 
 .control-container {

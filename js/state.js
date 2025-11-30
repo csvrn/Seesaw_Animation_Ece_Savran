@@ -10,12 +10,17 @@ const State = (() => {
   let angle = 0;
 
   return {
+    get angle() {
+      return angle;
+    },
     generateCurrentWeight() {
       currentWeight = Math.floor(Math.random() * 10) + 1;
       Stats.updateNextWeight(currentWeight);
       return currentWeight;
     },
-
+    get currentWeight() {
+      return currentWeight;
+    },
     incrementWeight(w, direction) {
       if (direction == "left") {
         leftWeight += w;
@@ -35,7 +40,7 @@ const State = (() => {
     },
 
     updateAngle() {
-      angle = Physics.calculateAngle(leftTorque, rightTorque);
+      angle = Physics.calculateAngle(leftTorque, rightTorque).toFixed(2);
       Stats.updateAngle(angle);
       return angle;
     },

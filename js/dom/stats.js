@@ -18,7 +18,7 @@ const Stats = (() => {
     },
 
     updateAngle(a) {
-      angleStat.innerText = `${a}`;
+      angleStat.innerHTML = `${a}&deg;`;
     },
   };
 })();
