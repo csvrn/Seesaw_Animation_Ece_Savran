@@ -85,7 +85,7 @@ a, b, c = side lengths
 
 A, B, C = angles opposite to those sides
 
-![Geometry Drawing](assets/geometry.png)
+![Geometry Drawing](assets//geometry.png)
 
 $$
 b = \frac{b}{\sin(A)}{*sin(B)}
@@ -97,19 +97,29 @@ If the plank is tilted to the right, the clickable space shifts from the most le
 
 ### Implementation:
 
+    const newLeft = plank.getBoundingClientRect().left;
+
     const b = plankHeight * Math.sin((Math.abs(State.angle) * Math.PI) / 180);
+
+    let newWidth = 0;
 
     const rad = 90 - Math.abs(State.angle);
 
     if (State.angle > 0) {
+
       newWidth = plankWidth * Math.sin((rad * Math.PI) / 180);
-      weightIndicatorContainer.style.left = `${newLeft + b}px`;
+
+      weightIndicatorContainer.style.left = `${b / 2}px`;
+
     } else if (State.angle < 0) {
+
       newWidth = plankWidth * Math.sin((rad * Math.PI) / 180);
-      weightIndicatorContainer.style.left = `${newLeft}px`;
+
+      weightIndicatorContainer.style.left = `${-b / 2}px`;
+
     }
 
-`Math.sin()` function takes radiant, so the angle is converted into radiant from degree.
+`Math.sin()` function takes radiant, so the angle is converted into radiant from degree. Division by 2 is applied since the element wasa positioned relative to the plank's center.
 
 ## Folder Structure
 
