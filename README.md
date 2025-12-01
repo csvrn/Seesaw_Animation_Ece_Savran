@@ -85,7 +85,7 @@ a, b, c = side lengths
 
 A, B, C = angles opposite to those sides
 
-![Geometry Drawing](assets//geometry.png)
+![Geometry Drawing](assets/geometry.png)
 
 $$
 b = \frac{b}{\sin(A)}{*sin(B)}
