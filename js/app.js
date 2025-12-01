@@ -44,10 +44,9 @@ function handleReset() {
 }
 
 function initApp() {
+  const pivotCenter = Seesaw.calculatePivotCenter();
   Seesaw.initLocalStorage();
   State.initStats();
-
-  const pivotCenter = Seesaw.calculatePivotCenter();
 
   State.generateCurrentWeight();
 
@@ -72,7 +71,24 @@ function initApp() {
     State.generateCurrentWeight();
   });
 }
+let domReady = false;
+let resourcesLoaded = false;
+let initialized = false;
 
-addEventListener("DOMContentLoaded", (event) => {
-  initApp();
+document.addEventListener("DOMContentLoaded", (event) => {
+  domReady = true;
+  runFinalInit();
 });
+window.addEventListener("load", () => {
+  resourcesLoaded = true;
+  runFinalInit();
+});
+
+function runFinalInit() {
+  if (domReady && resourcesLoaded) {
+    if (!initialized) {
+      initialized = true;
+      initApp();
+    }
+  }
+}

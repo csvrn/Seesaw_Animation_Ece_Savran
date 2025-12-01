@@ -54,8 +54,8 @@ const Seesaw = (() => {
       currentBorder = left;
     },
     calculatePivotCenter() {
-      const left = pivot.getBoundingClientRect().left;
-      const center = left + pivot.offsetWidth / 2;
+      const left = plank.getBoundingClientRect().left;
+      const center = left + plank.offsetWidth / 2;
       return center;
     },
 
@@ -83,9 +83,13 @@ const Seesaw = (() => {
       weightElement.style.width = `${40 + weight * 3}px`;
       weightElement.innerText = `${weight}kg`;
       weightElement.style.top = `${40 - weight * 3}px`;
-      weightElement.style.left = `${x - plank.getBoundingClientRect().left}px`;
-      weightElement.style.backgroundColor = Object.values(colors)[randIndex];
 
+      let left = x;
+      if (!init) {
+        left = x - plank.getBoundingClientRect().left;
+      }
+      weightElement.style.left = `${left}px`;
+      weightElement.style.backgroundColor = Object.values(colors)[randIndex];
       weightElement.addEventListener("animationend", () => {
         plankClickBox.appendChild(weightElement);
         weightElement.style.transform = "";
@@ -94,7 +98,7 @@ const Seesaw = (() => {
 
       weightIndicatorContainer.appendChild(weightElement);
       if (!init) {
-        State.appendWeightList(weight, x, distance, direction);
+        State.appendWeightList(weight, left, distance, direction);
       }
     },
     showWeightIndicator() {

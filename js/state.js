@@ -9,13 +9,13 @@ const State = (() => {
   let leftTorque = Number(localStorage.getItem("leftTorque")) || 0;
   let angle = Number(localStorage.getItem("angle")) || 0;
 
-  const weightList = JSON.parse(localStorage.getItem("weight-list")) || {
+  let weightList = JSON.parse(localStorage.getItem("weight-list")) || {
     left: [],
     right: [],
   };
   return {
-    appendWeightList(weight, x, distance, direction) {
-      weightList[direction].push([weight, x, distance]);
+    appendWeightList(weight, left, distance, direction) {
+      weightList[direction].push([weight, left, distance]);
       const strList = JSON.stringify(weightList);
       localStorage.setItem("weight-list", strList);
     },
@@ -65,7 +65,10 @@ const State = (() => {
       rightTorque = 0;
       leftTorque = 0;
       angle = 0;
-
+      weightList = {
+        left: [],
+        right: [],
+      };
       Stats.resetStats();
     },
     get weightList() {
