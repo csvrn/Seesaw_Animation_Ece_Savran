@@ -16,14 +16,23 @@ const Seesaw = (() => {
   let plankHeight = plank.getBoundingClientRect().height;
 
   plank.addEventListener("transitionend", () => {
-    const newLeft = plank.getBoundingClientRect().left;
-    const shift = newLeft - currentBorder;
-    const b = plankHeight * Math.sin(State.angle);
+    const newLeft =
+      plank.getBoundingClientRect().left < 1240
+        ? 1240
+        : plank.getBoundingClientRect().left;
+    const b = plankHeight * Math.sin((Math.abs(State.angle) * Math.PI) / 180);
     let newWidth = 0;
+    const rad = 90 - Math.abs(State.angle);
+
     if (State.angle > 0) {
-      newWidth = plankWidth - shift + b * 1.5;
+      newWidth = plankWidth * Math.sin((rad * Math.PI) / 180);
+      weightIndicatorContainer.style.left = `${newLeft + b}px`;
+    } else if (State.angle < 0) {
+      newWidth = plankWidth * Math.sin((rad * Math.PI) / 180);
+      weightIndicatorContainer.style.left = `${newLeft}px`;
     } else {
-      newWidth = plankWidth - shift - b;
+      newWidth = plankWidth;
+      weightIndicatorContainer.style.left = "1240px";
     }
     weightIndicatorContainer.style.width = `${newWidth}px`;
   });
@@ -54,7 +63,10 @@ const Seesaw = (() => {
       currentBorder = left;
     },
     calculatePivotCenter() {
-      const left = plank.getBoundingClientRect().left;
+      const left =
+        plank.getBoundingClientRect().left < 1240
+          ? 1240
+          : plank.getBoundingClientRect().left;
       const center = left + plank.offsetWidth / 2;
       return center;
     },
